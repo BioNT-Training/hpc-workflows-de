@@ -1,41 +1,31 @@
 ---
-title: "Running commands with Snakemake"
+title: Ausführen von Befehlen mit Snakemake
 teaching: 30
 exercises: 30
 ---
 
+
 ::: questions
 
-- "How do I run a simple command with Snakemake?"
+- "Wie führe ich einen einfachen Befehl mit Snakemake aus?"
 
 :::
 
 :::objectives
 
-- "Create a Snakemake recipe (a Snakefile)"
+- "Erstelle ein Snakemake-Rezept (eine Snake-Datei)"
 
 :::
 
-## What is the workflow I'm interested in?
+## Für welchen Arbeitsablauf interessiere ich mich?
 
-In this lesson we will make an experiment that takes an application which runs
-in parallel and investigate it's scalability. To do that we will need to gather
-data, in this case that means running the application multiple times with
-different numbers of CPU cores and recording the execution time. Once we've
-done that we need to create a visualisation of the data to see how it compares
-against the ideal case.
+In dieser Lektion werden wir ein Experiment durchführen, bei dem wir eine parallel laufende Anwendung auf ihre Skalierbarkeit hin untersuchen. Dazu müssen wir Daten sammeln. In diesem Fall bedeutet das, dass wir die Anwendung mehrmals mit einer unterschiedlichen Anzahl von CPU-Kernen ausführen und die Ausführungszeit aufzeichnen. Danach müssen wir eine Visualisierung der Daten erstellen, um zu sehen, wie sie sich im Vergleich zum Idealfall verhalten.
 
-From the visualisation we can then decide at what scale it
-makes most sense to run the application at in production to maximise the use of
-our CPU allocation on the system.
+Anhand der Visualisierung können wir dann entscheiden, in welchem Maßstab es am sinnvollsten ist, die Anwendung in der Produktion laufen zu lassen, um die CPU-Zuweisung auf dem System optimal zu nutzen.
 
-We could do all of this manually, but there are useful tools to help us manage
-data analysis pipelines like we have in our experiment. Today we'll learn about
-one of those: Snakemake.
+Wir könnten all dies manuell tun, aber es gibt nützliche Tools, die uns bei der Verwaltung von Datenanalyse-Pipelines, wie wir sie in unserem Experiment haben, helfen. Heute werden wir eines dieser Tools kennenlernen: Snakemake.
 
-In order to get started with Snakemake, let's begin by taking a simple command
-and see how we can run that via Snakemake. Let's choose the command `hostname`
-which prints out the name of the host where the command is executed:
+Um mit Snakemake zu beginnen, nehmen wir zunächst einen einfachen Befehl und sehen, wie wir ihn mit Snakemake ausführen können. Wählen wir den Befehl `hostname`, der den Namen des Rechners ausgibt, auf dem der Befehl ausgeführt wird:
 
 ```bash
 [ocaisa@node1 ~]$ hostname
@@ -45,18 +35,17 @@ which prints out the name of the host where the command is executed:
 node1.int.jetstream2.hpc-carpentry.org
 ```
 
-That prints out the result but Snakemake relies on files to know the status of
-your workflow, so let's redirect the output to a file:
+Das gibt das Ergebnis aus, aber Snakemake verlässt sich auf Dateien, um den Status Ihres Workflows zu kennen, also leiten wir die Ausgabe in eine Datei um:
 
 ```bash
 [ocaisa@node1 ~]$ hostname > hostname_login.txt
 ```
 
-## Making a Snakefile
+## Erstellen einer Snake-Datei
 
-Edit a new text file named `Snakefile`.
+Bearbeiten Sie eine neue Textdatei mit dem Namen `Snakefile`.
 
-Contents of `Snakefile`:
+Inhalt von `Snakefile`:
 
 ```python
 rule hostname_login:
@@ -68,28 +57,20 @@ rule hostname_login:
 
 ::: callout
 
-## Key points about this file
+## Wichtige Punkte zu dieser Datei
 
-1. The file is named `Snakefile` - with a capital `S` and no file extension.
-1. Some lines are indented. Indents must be with space characters, not tabs. See
-   the setup section for how to make your text editor do this.
-1. The rule definition starts with the keyword `rule` followed by the rule name,
-   then a colon.
-1. We named the rule `hostname_login`. You may use letters, numbers or
-   underscores, but the rule name must begin with a letter and may not be a
-   keyword.
-1. The keywords `input`, `output`, and `shell` are all followed by a colon (":").
-1. The file names and the shell command are all in `"quotes"`.
-1. The output filename is given before the input filename. In fact, Snakemake
-   doesn't care what order they appear in but we give the output first
-   throughout this course. We'll see why soon.
-1. In this use case there is no input file for the command so we leave this
-   blank.
+1. Die Datei heißt `Snakefile` - mit einem großen `S` und ohne Dateierweiterung.
+1. Einige Zeilen sind eingerückt. Einrückungen müssen mit Leerzeichen, nicht mit Tabulatoren erfolgen. Wie Sie Ihren Texteditor dazu bringen, dies zu tun, erfahren Sie im Abschnitt "Setup".
+1. Die Regeldefinition beginnt mit dem Schlüsselwort `rule`, gefolgt von dem Namen der Regel und einem Doppelpunkt.
+1. Wir haben die Regel `hostname_login` genannt. Sie können Buchstaben, Zahlen oder Unterstriche verwenden, aber der Name der Regel muss mit einem Buchstaben beginnen und darf kein Schlüsselwort sein.
+1. Die Schlüsselwörter `input`, `output` und `shell` werden alle von einem Doppelpunkt (":") gefolgt.
+1. Die Dateinamen und der Shell-Befehl sind alle in `"quotes"`.
+1. Der Name der Ausgabedatei wird vor dem Namen der Eingabedatei angegeben. Eigentlich ist es Snakemake egal, in welcher Reihenfolge sie erscheinen, aber wir geben in diesem Kurs die Ausgabe zuerst an. Wir werden gleich sehen, warum.
+1. In diesem Anwendungsfall gibt es keine Eingabedatei für den Befehl, also lassen wir dieses Feld leer.
 
 :::
 
-Back in the shell we'll run our new rule. At this point, if there were any
-missing quotes, bad indents, etc., we may see an error.
+Zurück in der Shell werden wir unsere neue Regel ausführen. An diesem Punkt, wenn es irgendwelche fehlenden Anführungszeichen, falsche Einrückungen, etc. gab, werden wir einen Fehler sehen.
 
 ```bash
 snakemake -j1 -p hostname_login
@@ -99,9 +80,7 @@ snakemake -j1 -p hostname_login
 
 ## `bash: snakemake: command not found...`
 
-If your shell tells you that it cannot find the command `snakemake` then we need
-to make the software available somehow. In our case, this means searching for
-the module that we need to load:
+Wenn Ihre Shell Ihnen mitteilt, dass sie den Befehl `snakemake` nicht finden kann, müssen wir die Software irgendwie verfügbar machen. In unserem Fall bedeutet das, dass wir nach dem Modul suchen müssen, das wir laden wollen:
 
 ```bash
 module spider snakemake
@@ -129,13 +108,13 @@ Names marked by a trailing (E) are extensions provided by another module.
 --------------------------------------------------------------------------------------------------------
 ```
 
-Now we want the module, so let's load that to make the package available
+Jetzt wollen wir das Modul, also laden wir es, um das Paket verfügbar zu machen
 
 ```bash
 [ocaisa@node1 ~]$ module load snakemake
 ```
 
-and then make sure we have the `snakemake` command available
+und dann stellen Sie sicher, dass der Befehl `snakemake` verfügbar ist
 
 ```bash
 [ocaisa@node1 ~]$ which snakemake
@@ -148,40 +127,44 @@ and then make sure we have the `snakemake` command available
 ```bash
 snakemake -j1 -p hostname_login
 ```
+
 :::
 
 ::: challenge
-## Running Snakemake
 
-Run `snakemake --help | less` to see the help for all available options.
-What does the `-p` option in the `snakemake` command above do?
+## Ausführen von Snakemake
 
-1. Protects existing output files
-1. Prints the shell commands that are being run to the terminal
-1. Tells Snakemake to only run one process at a time
-1. Prompts the user for the correct input file
+Führen Sie `snakemake --help | less` aus, um die Hilfe für alle verfügbaren Optionen zu sehen. Was bewirkt die Option `-p` in dem obigen Befehl `snakemake`?
+
+1. Schützt bestehende Ausgabedateien
+1. Gibt die Shell-Befehle, die gerade ausgeführt werden, auf dem Terminal aus
+1. Sagt Snakemake, dass es nur einen Prozess auf einmal ausführen soll
+1. Fordert den Benutzer auf, die richtige Eingabedatei zu wählen
 
 :::::: hint
-You can search in the text by pressing <kbd>/</kbd>,
-and quit back to the shell with <kbd>q</kbd>.
+
+Sie können im Text suchen, indem Sie <kbd>/</kbd> drücken, und mit <kbd>q</kbd> zur Shell zurückkehren.
+
 ::::::
 
 :::::: solution
-(2) Prints the shell commands that are being run to the terminal
 
-This is such a useful thing we don't know why it isn't the default! The `-j1`
-option is what tells Snakemake to only run one process at a time, and we'll
-stick with this for now as it makes things simpler. Answer 4 is a total
-red-herring, as Snakemake never prompts interactively for user input.
+(2) Gibt die Shell-Befehle, die gerade ausgeführt werden, auf dem Terminal aus
+
+Dies ist so nützlich, dass wir nicht wissen, warum es nicht die Standardeinstellung ist! Die Option `-j1` sagt Snakemake, dass es immer nur einen Prozess auf einmal ausführen soll, und wir bleiben vorerst dabei, da es die Dinge einfacher macht. Antwort 4 ist ein totales Ablenkungsmanöver, da Snakemake niemals interaktiv nach Benutzereingaben fragt.
+
 ::::::
+
+
 :::
 
 ::: keypoints
 
-- "Before running Snakemake you need to write a Snakefile"
-- "A Snakefile is a text file which defines a list of rules"
-- "Rules have inputs, outputs, and shell commands to be run"
-- "You tell Snakemake what file to make and it will run the shell command
-  defined in the appropriate rule"
+- "Bevor Sie Snakemake starten, müssen Sie ein Snakefile schreiben"
+- "Ein Snakefile ist eine Textdatei, die eine Liste von Regeln definiert"
+- "Regeln haben Eingänge, Ausgänge und Shell-Befehle, die ausgeführt werden sollen"
+- "Du sagst Snakemake, welche Datei es erstellen soll, und es wird den in der entsprechenden Regel definierten Shell-Befehl ausführen"
 
 :::
+
+

@@ -1,34 +1,29 @@
 ---
-title: "MPI applications and Snakemake"
+title: MPI-Anwendungen und Snakemake
 teaching: 30
 exercises: 20
 ---
 
+
 ::: objectives
 
-- "Define rules to run locally and on the cluster"
+- "Definieren Sie Regeln, die lokal und im Cluster ausgeführt werden sollen"
 
 :::
 
 ::: questions
 
-- "How do I run an MPI application via Snakemake on the cluster?"
+- "Wie kann ich eine MPI-Anwendung über Snakemake auf dem Cluster laufen lassen?"
 
 :::
 
-Now it's time to start getting back to our real workflow. We can execute a
-command on the cluster, but what about executing the MPI application we are
-interested in? Our application is called `amdahl` and is available as an
-environment module.
+Jetzt ist es an der Zeit, sich wieder unserem eigentlichen Arbeitsablauf zuzuwenden. Wir können einen Befehl auf dem Cluster ausführen, aber was ist mit der Ausführung der MPI-Anwendung, an der wir interessiert sind? Unsere Anwendung heißt `amdahl` und ist als Umgebungsmodul verfügbar.
 
 ::: challenge
 
-Locate and load the `amdahl` module and then _replace_ our `hostname_remote`
-rule with a version that runs `amdahl`. (Don't worry about parallel MPI just
-yet, run it with a single CPU, `mpiexec -n 1 amdahl`).
+Suchen und laden Sie das Modul `amdahl` und _ersetzen_ Sie dann unsere `hostname_remote`-Regel durch eine Version, die `amdahl` ausführt. (Machen Sie sich noch keine Gedanken über paralleles MPI, lassen Sie es mit einer einzelnen CPU laufen, `mpiexec -n 1 amdahl`).
 
-Does your rule execute correctly? If not look through the log files to find out
-why?
+Wurde Ihre Regel korrekt ausgeführt? Wenn nicht, sehen Sie sich die Protokolldateien an, um herauszufinden, warum?
 
 ::::::solution
 
@@ -37,8 +32,7 @@ module spider amdahl
 module load amdahl
 ```
 
-will locate and then load the `amdahl` module. We can then update/replace our
-rule to run the `amdahl` application:
+findet und lädt das Modul `amdahl`. Wir können dann unsere Regel aktualisieren/ersetzen, um die Anwendung `amdahl` auszuführen:
 
 ```python
 rule amdahl_run:
@@ -48,10 +42,7 @@ rule amdahl_run:
         "mpiexec -n 1 amdahl > {output}"
 ```
 
-However, when we try to execute the rule we get an error (unless you already
-have a different version of `amdahl` available in your path). Snakemake
-reports the
-location of the logs and if we look inside we can (eventually) find
+Wenn wir jedoch versuchen, die Regel auszuführen, erhalten wir eine Fehlermeldung (es sei denn, Sie haben bereits eine andere Version von `amdahl` in Ihrem Pfad verfügbar). Snakemake meldet den Speicherort der Protokolle und wenn wir darin nachsehen, finden wir (eventuell)
 
 ```output
 ...
@@ -71,21 +62,16 @@ Executable: amdahl
 ...
 ```
 
-So, even though we loaded the module before running the workflow, our
-Snakemake rule didn't find the executable. That's because the Snakemake rule
-is running in a clean _runtime environment_, and we need to somehow tell it to
-load the necessary environment module before trying to execute the rule.
+Obwohl wir das Modul vor der Ausführung des Workflows geladen haben, hat unsere Snakemake-Regel die ausführbare Datei nicht gefunden. Das liegt daran, dass die Snakemake-Regel in einer sauberen _Laufzeitumgebung_ läuft, und wir müssen ihr irgendwie sagen, dass sie das notwendige Umgebungsmodul laden soll, bevor wir versuchen, die Regel auszuführen.
 
 ::::::
+
+
 :::
 
-## Snakemake and environment modules
+## Snakemake und Umgebungsmodule
 
-Our application is called `amdahl` and is available on the system via an
-environment module, so we need to
-tell Snakemake to load the module before it tries to execute the rule. Snakemake
-is aware of environment modules, and these can be specified via (yet another)
-option:
+Unsere Anwendung heißt `amdahl` und ist auf dem System über ein Umgebungsmodul verfügbar, also müssen wir Snakemake sagen, dass es das Modul laden soll, bevor es versucht, die Regel auszuführen. Snakemake kennt Umgebungsmodule, und diese können über eine (weitere) Option angegeben werden:
 
 ```python
 rule amdahl_run:
@@ -99,12 +85,7 @@ rule amdahl_run:
         "mpiexec -n 1 amdahl > {output}"
 ```
 
-Adding these lines are not enough to make the rule execute however. Not only do
-you have to tell Snakemake what modules to load, but you also have to tell it to
-use environment modules in general (since the use of environment modules is 
-considered to make your runtime environment less reproducible as the available
-modules may differ from cluster to cluster). This requires you to give Snakemake
-an additonal option
+Das Hinzufügen dieser Zeilen reicht jedoch nicht aus, damit die Regel ausgeführt wird. Sie müssen Snakemake nicht nur mitteilen, welche Module geladen werden sollen, sondern auch, dass es generell Umgebungsmodule verwenden soll (da die Verwendung von Umgebungsmodulen Ihre Laufzeitumgebung weniger reproduzierbar macht, da sich die verfügbaren Module von Cluster zu Cluster unterscheiden können). Dazu müssen Sie Snakemake eine zusätzliche Option geben
 
 ```bash
 snakemake --profile cluster_profile --use-envmodules amdahl_run
@@ -112,12 +93,11 @@ snakemake --profile cluster_profile --use-envmodules amdahl_run
 
 ::: challenge
 
-We'll be using environment modules throughout the rest of tutorial, so make that
-a default option of our profile (by setting it's value to `True`)
+Wir werden im weiteren Verlauf des Tutorials Umgebungsmodule verwenden, also machen Sie diese Option zu einer Standardoption unseres Profils (indem Sie den Wert auf `True` setzen)
 
 ::::::solution
 
-Update our cluster profile to
+Aktualisieren Sie unser Clusterprofil auf
 
 ```yaml
 printshellcmds: True
@@ -129,33 +109,26 @@ default-resources:
 use-envmodules: True
 ```
 
-If you want to test it, you need to erase the output file of the rule and rerun
-Snakemake.
+Wenn Sie es testen wollen, müssen Sie die Ausgabedatei der Regel löschen und Snakemake erneut ausführen.
 
 ::::::
 
 :::
 
-## Snakemake and MPI
+## Snakemake und MPI
 
-We didn't really run an MPI application in the last section as we only ran on
-one core. How do we request to run on multiple cores for a single rule?
+Im letzten Abschnitt haben wir nicht wirklich eine MPI-Anwendung laufen lassen, da wir nur auf einem Kern gearbeitet haben. Wie können wir für eine einzelne Regel die Ausführung auf mehreren Kernen anfordern?
 
-Snakemake has general support for MPI, but the only executor that currently
-explicitly supports MPI is the Slurm executor (lucky for us!). If we look back
-at our Slurm to Snakemake translation table we notice the relevant options
-appear near the bottom:
+Snakemake bietet allgemeine Unterstützung für MPI, aber der einzige Executor, der MPI derzeit explizit unterstützt, ist der Slurm-Executor (ein Glück für uns!). Wenn wir uns unsere Übersetzungstabelle von Slurm nach Snakemake ansehen, stellen wir fest, dass die relevanten Optionen am unteren Rand erscheinen:
 
-| SLURM             | Snakemake         | Description                                                    |
-|-------------------|-------------------|----------------------------------------------------------------|
-| ...               | ...               | ...                                                            |
-| `--ntasks`        | `tasks`           | number of concurrent tasks / ranks                             |
-| `--cpus-per-task` | `cpus_per_task`   | number of cpus per task (in case of SMP, rather use `threads`) |
-| `--nodes`         | `nodes`           | number of nodes                                                |
+| SLURM             | Snakemake       | Description                                                    |
+| ----------------- | --------------- | -------------------------------------------------------------- |
+| ...               | ...             | ...                                                            |
+| `--ntasks`        | `tasks`         | number of concurrent tasks / ranks                             |
+| `--cpus-per-task` | `cpus_per_task` | number of cpus per task (in case of SMP, rather use `threads`) |
+| `--nodes`         | `nodes`         | number of nodes                                                |
 
-The one we are interested is `tasks` as we are only going to increase the number
-of ranks. We can define these in a `resources` section of our rule and refer to
-them using placeholders:
+Diejenige, die uns interessiert, ist `tasks`, da wir nur die Anzahl der Ränge erhöhen wollen. Wir können diese in einem `resources`-Abschnitt unserer Regel definieren und mit Platzhaltern auf sie verweisen:
 
 ```python
 rule amdahl_run:
@@ -171,67 +144,50 @@ rule amdahl_run:
         "{resources.mpi} -n {resources.tasks} amdahl > {output}"
 ```
 
-That worked but now we have a bit of an issue. We want to do this for a few
-different values of `tasks` that would mean we would need a different output
-file for every run. It would be great if we can somehow indicate in the `output`
-the value that we want to use for `tasks`...and have Snakemake pick that up.
+Das hat funktioniert, aber jetzt haben wir ein kleines Problem. Wir wollen dies für einige verschiedene Werte von `tasks` machen, was bedeuten würde, dass wir für jeden Lauf eine andere Ausgabedatei benötigen. Es wäre großartig, wenn wir irgendwie in `output` den Wert angeben könnten, den wir für `tasks` verwenden wollen... und Snakemake das übernehmen könnte.
 
-We could use a _wildcard_ in the `output` to allow us to
-define the `tasks` we wish to use. The syntax for such a wildcard looks like
+Wir koennten eine _Wildcard_ in `output` benutzen, um das `tasks` zu definieren, das wir benutzen wollen. Die Syntax für einen solchen Platzhalter sieht wie folgt aus
 
 ```python
 output: "amdahl_run_{parallel_tasks}.txt"
 ```
 
-where `parallel_tasks` is our wildcard.
+wobei `parallel_tasks` unser Platzhalter ist.
 
 ::: callout
+
 ## Wildcards
 
-Wildcards are used in the `input` and `output` lines of the rule to represent
-parts of filenames.
-Much like the `*` pattern in the shell, the wildcard can stand in for any text
-in order to make up
-the desired filename. As with naming your rules, you may choose any name you
-like for your
-wildcards, so here we used `parallel_tasks`. Using the same wildcards in the
-input and output is what tells Snakemake how to match input files to output
-files.
+Wildcards werden in den Zeilen `input` und `output` der Regel verwendet, um Teile von Dateinamen zu repräsentieren. Ähnlich wie das Muster `*` in der Shell kann der Platzhalter für jeden beliebigen Text stehen, um den gewünschten Dateinamen zu bilden. Wie bei der Benennung Ihrer Regeln können Sie auch für Ihre Platzhalter einen beliebigen Namen wählen, hier also `parallel_tasks`. Durch die Verwendung der gleichen Platzhalter in der Eingabe und der Ausgabe wird Snakemake mitgeteilt, wie die Eingabedateien den Ausgabedateien zugeordnet werden sollen.
 
-If two rules use a wildcard with the same name then Snakemake will treat them as
-different entities - rules in Snakemake are self-contained in this way.
+Wenn zwei Regeln einen Platzhalter mit demselben Namen verwenden, werden sie von Snakemake als unterschiedliche Entitäten behandelt - Regeln in Snakemake sind auf diese Weise in sich geschlossen.
 
-In the `shell` line you can reference the wildcard with
-`{wildcards.parallel_tasks}`
+In der Zeile `shell` kann man den Platzhalter mit `{wildcards.parallel_tasks}` referenzieren
+
 :::
 
-## Snakemake order of operations
+## Snakemake Reihenfolge der Operationen
 
-We're only just getting started with some simple rules, but it's worth thinking
-about exactly what Snakemake is doing when you run it. There are three distinct
-phases:
+Wir fangen gerade erst mit ein paar einfachen Regeln an, aber es lohnt sich, darüber nachzudenken, was Snakemake genau macht, wenn Sie es ausführen. Es gibt drei verschiedene Phasen:
 
-1. Prepares to run:
-    1. Reads in all the rule definitions from the Snakefile
-1. Plans what to do:
-    1. Sees what file(s) you are asking it to make
-    1. Looks for a matching rule by looking at the `output`s of all the rules
-       it knows
-    1. Fills in the wildcards to work out the `input` for this rule
-    1. Checks that this input file (if required) is actually available
-1. Runs the steps:
-    1. Creates the directory for the output file, if needed
-    1. Removes the old output file if it is already there
-    1. Only then, runs the shell command with the placeholders replaced
-    1. Checks that the command ran without errors *and* made the new output
-       file as expected
+1. Bereitet sich auf die Ausführung vor:
+    1. Liest alle Regeldefinitionen aus dem Snakefile ein
+1. Planen Sie, was zu tun ist:
+    1. Zeigt an, welche Datei(en) Sie erstellen möchten
+    1. Sucht nach einer passenden Regel, indem es die `output` aller ihm bekannten Regeln betrachtet
+    1. Füllt die Platzhalter aus, um die `input` für diese Regel zu berechnen
+    1. Prüft, ob diese Eingabedatei (falls erforderlich) tatsächlich vorhanden ist
+1. Führt die Schritte aus:
+    1. Erzeugt das Verzeichnis für die Ausgabedatei, falls erforderlich
+    1. Entfernt die alte Ausgabedatei, wenn sie bereits vorhanden ist
+    1. Nur dann wird der Shell-Befehl mit den ersetzten Platzhaltern ausgeführt
+    1. Prüft, ob der Befehl ohne Fehler gelaufen ist *und* die neue Ausgabedatei wie erwartet erstellt hat
 
 ::: callout
-## Dry-run (`-n`) mode
 
-It's often useful to run just the first two phases, so that Snakemake will plan out the jobs to
-run, and print them to the screen, but never actually run them. This is done with the `-n`
-flag, eg:
+## Trockenlauf (`-n`) Modus
+
+Es ist oft nützlich, nur die ersten beiden Phasen laufen zu lassen, so dass Snakemake die auszuführenden Jobs plant und sie auf den Bildschirm ausgibt, sie aber nie tatsächlich ausführt. Dies wird mit dem `-n` Flag erreicht, z.B.:
 
 ```bash
 > $ snakemake -n ...
@@ -239,14 +195,11 @@ flag, eg:
 
 :::
 
-The amount of checking may seem pedantic right now, but as the workflow gains more steps this will
-become very useful to us indeed.
+Die Anzahl der Überprüfungen mag im Moment noch pedantisch erscheinen, aber wenn der Arbeitsablauf mehr Schritte umfasst, wird dies in der Tat sehr nützlich für uns werden.
 
-## Using wildcards in our rule
+## Verwendung von Wildcards in unserer Regel
 
-We would like to use a wildcard in the `output` to allow us to
-define the number of `tasks` we wish to use. Based on what we've seen so far,
-you might imagine this could look like
+Wir möchten einen Platzhalter in `output` verwenden, um die Anzahl der `tasks` zu definieren, die wir verwenden möchten. Ausgehend von dem, was wir bisher gesehen haben, könnten Sie sich vorstellen, dass dies wie folgt aussehen könnte
 
 ```python
 rule amdahl_run:
@@ -262,47 +215,33 @@ rule amdahl_run:
         "{resources.mpi} -n {resources.tasks} amdahl > {output}"
 ```
 
-but there are two problems with this:
+aber es gibt zwei Probleme damit:
 
-- The only way for Snakemake to know the value of the wildcard is for the user
-  to explicitly request a concrete output file (rather than call the rule):
+- Die einzige Möglichkeit für Snakemake, den Wert des Platzhalters zu erfahren, besteht darin, dass der Benutzer explizit eine konkrete Ausgabedatei anfordert (anstatt die Regel aufzurufen):
 
 ```bash
   snakemake --profile cluster_profile amdahl_run_2.txt
-  ```
+```
 
-  This is perfectly valid, as Snakemake can figure out that it has a rule that
-  can match that filename.
-  
-- The bigger problem is that even doing that does not work, it seems we cannot
-  use a wildcard for `tasks`:
-  
+Dies ist absolut gültig, da Snakemake herausfinden kann, dass es eine Regel hat, die auf diesen Dateinamen passt.
+
+- Das größere Problem ist, dass selbst das nicht funktioniert, es scheint, dass wir keinen Platzhalter für `tasks` verwenden können:
+
   ```output
   WorkflowError:
   SLURM job submission failed. The error message was sbatch:
   error: Invalid numeric value "{parallel_tasks}" for --ntasks.
   ```
 
-Unfortunately for us, there is no direct way for us to access the wildcards
-for `tasks`.
-The reason for this is that Snakemake tries to use the value of `tasks` during its
-initialisation stage, which is before we know the value of the wildcard. We need
-to defer the determination of `tasks` to later on. This can be achieved by
-specifying an input function instead of a value for this
-scenario. The solution then is to write a one-time use function to manipulate
-Snakemake into doing this for us. Since the function is specifically for the
-rule, we can use a one-line function without a name. These kinds of functions
-are called either anonymous functions or lamdba functions (both mean the same
-thing), and are a feature of Python (and other programming languages).
+Leider gibt es für uns keine direkte Möglichkeit, auf die Platzhalter für `tasks` zuzugreifen. Der Grund dafür ist, dass Snakemake versucht, den Wert von `tasks` während seiner Initialisierungsphase zu verwenden, also bevor wir den Wert des Platzhalters kennen. Wir müssen die Bestimmung von `tasks` auf einen späteren Zeitpunkt verschieben. Dies kann erreicht werden, indem für dieses Szenario eine Eingabefunktion anstelle eines Wertes angegeben wird. Die Lösung besteht also darin, eine einmalig zu verwendende Funktion zu schreiben, die Snakemake dazu bringt, dies für uns zu tun. Da die Funktion speziell für die Regel gedacht ist, können wir eine einzeilige Funktion ohne Namen verwenden. Diese Art von Funktionen werden entweder anonyme Funktionen oder Lamdba-Funktionen genannt (beide bedeuten dasselbe) und sind ein Merkmal von Python (und anderen Programmiersprachen).
 
-To define a lambda function in python, the general syntax is as follows:
+Um eine Lambda-Funktion in Python zu definieren, ist die allgemeine Syntax wie folgt:
 
 ```python
 lambda x: x + 54
 ```
 
-Since our function _can_ take the wildcards as arguments, we can use that to set
-the value for `tasks`:
+Da unsere Funktion die Platzhalter als Argumente benutzen kann, können wir damit den Wert für `tasks` setzen:
 
 ```python
 rule amdahl_run:
@@ -321,24 +260,17 @@ rule amdahl_run:
         "{resources.mpi} -n {resources.tasks} amdahl > {output}"
 ```
 
-Now we have a rule that can be used to generate output from runs of an
-arbitrary number of parallel tasks.
+Jetzt haben wir eine Regel, die verwendet werden kann, um die Ausgabe von Läufen einer beliebigen Anzahl von parallelen Aufgaben zu erzeugen.
 
 ::: callout
 
-## Comments in Snakefiles
+## Kommentare in Snakefiles
 
-In the above code, the line beginning `#` is a comment line. Hopefully you are
-already in the habit of adding comments to your own scripts. Good comments make
-any script more readable, and this is just as true with Snakefiles.
+Im obigen Code ist die Zeile, die mit `#` beginnt, eine Kommentarzeile. Hoffentlich haben Sie sich bereits angewöhnt, Kommentare in Ihre eigenen Skripte einzufügen. Gute Kommentare machen jedes Skript besser lesbar, und das gilt auch für Snakefiles.
 
 :::
 
-Since our rule is now capable of generating an arbitrary number of output files
-things could get very crowded in our current directory. It's probably best then
-to put the runs into a separate folder to keep things tidy. We can add the
-folder directly to our `output` and Snakemake will take of directory creation
-for us:
+Da unsere Regel nun in der Lage ist, eine beliebige Anzahl von Ausgabedateien zu erzeugen, könnte es in unserem aktuellen Verzeichnis sehr voll werden. Es ist daher wahrscheinlich am besten, die Läufe in einen separaten Ordner zu legen, um Ordnung zu schaffen. Wir können den Ordner direkt zu unserem `output` hinzufügen und Snakemake wird die Erstellung des Verzeichnisses für uns übernehmen:
 
 ```python
 rule amdahl_run:
@@ -359,11 +291,9 @@ rule amdahl_run:
 
 ::: challenge
 
-Create an output file (under the `runs` folder) for the case where we have 6
-parallel tasks
+Erzeugt eine Ausgabedatei (unter dem Ordner `runs`) für den Fall, dass wir 6 parallele Aufgaben haben
 
-(HINT: Remember that Snakemake needs to be able to match the requested file to
-the `output` from a rule)
+(TIPP: Denken Sie daran, dass Snakemake in der Lage sein muss, die angeforderte Datei mit dem `output` einer Regel abzugleichen)
 
 :::::: solution
 
@@ -375,10 +305,7 @@ snakemake --profile cluster_profile runs/amdahl_run_6.txt
 
 :::
 
-Another thing about our application `amdahl` is that we ultimately want to
-process the output to generate our scaling plot. The output right now is useful
-for reading but makes processing harder. `amdahl` has an option that actually
-makes this easier for us. To see the `amdahl` options we can use
+Ein weiterer Punkt bei unserer Anwendung `amdahl` ist, dass wir letztendlich die Ausgabe verarbeiten wollen, um unsere Skalierungsdarstellung zu erzeugen. Die derzeitige Ausgabe ist zwar nützlich zum Lesen, erschwert aber die Verarbeitung. `amdahl` hat eine Option, die dies für uns einfacher macht. Um die `amdahl` Optionen zu sehen, können wir verwenden
 
 ```bash
 [ocaisa@node1 ~]$ module load amdahl
@@ -398,11 +325,7 @@ options:
   -e, --exact           Disable random jitter
 ```
 
-The option we are looking for is `--terse`, and that will make `amdahl` print
-output in a format that is much easier to process, JSON. JSON format in a file
-typically uses the file extension `.json` so let's add that option to our 
-`shell` command _and_ change the file format of the `output` to match our new
-command:
+Die Option, nach der wir suchen, ist `--terse`, und die bewirkt, dass `amdahl` die Ausgabe in einem Format ausgibt, das viel einfacher zu verarbeiten ist, nämlich JSON. Das JSON-Format in einer Datei verwendet normalerweise die Dateierweiterung `.json`, also fügen wir diese Option zu unserem `shell`-Befehl hinzu _und_ ändern das Dateiformat von `output`, damit es zu unserem neuen Befehl passt:
 
 ```python
 rule amdahl_run:
@@ -421,13 +344,7 @@ rule amdahl_run:
         "{resources.mpi} -n {resources.tasks} amdahl --terse > {output}"
 ```
 
-There was another parameter for `amdahl` that caught my eye. `amdahl` has an
-option `--parallel-proportion` (or `-p`) which we might be interested in
-changing as it changes the behaviour of the code,and therefore has an impact on
-the values we get in our results. Let's add
-another directory layer to our output format to reflect a particular choice for
-this value. We can use a wildcard so we done have to choose the value right
-away:
+Es gab einen weiteren Parameter für `amdahl`, der mir aufgefallen ist. `amdahl` hat eine Option `--parallel-proportion` (oder `-p`), an deren Änderung wir interessiert sein könnten, da sie das Verhalten des Codes verändert und sich somit auf die Werte auswirkt, die wir in unseren Ergebnissen erhalten. Fügen wir eine weitere Verzeichnisebene zu unserem Ausgabeformat hinzu, um eine bestimmte Wahl für diesen Wert wiederzugeben. Wir können einen Platzhalter verwenden, damit wir den Wert gleich auswählen müssen:
 
 ```python
 rule amdahl_run:
@@ -448,8 +365,7 @@ rule amdahl_run:
 
 ::: challenge
 
-Create an output file for a value of `-p` of 0.999 (the default value is 0.8)
-for the case where we have 6 parallel tasks.
+Erstellt eine Ausgabedatei für einen Wert von `-p` von 0,999 (der Standardwert ist 0,8) für den Fall, dass wir 6 parallele Aufgaben haben.
 
 :::::: solution
 
@@ -463,9 +379,9 @@ snakemake --profile cluster_profile p_0.999/runs/amdahl_run_6.json
 
 ::: keypoints
 
-- "Snakemake chooses the appropriate rule by replacing wildcards such that the
-  output matches the target"
-- "Snakemake checks for various error conditions and will stop if it sees a
-  problem"
+- "Snakemake wählt die passende Regel durch Ersetzen von Platzhaltern, so dass die Ausgabe mit dem Ziel übereinstimmt"
+- "Snakemake prüft auf verschiedene Fehlerbedingungen und hält an, wenn es ein Problem sieht"
 
 :::
+
+
