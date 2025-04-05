@@ -2,8 +2,10 @@
 site: sandpaper::sandpaper_site
 ---
 
-This is a new lesson built with [The Carpentries Workbench][workbench]. 
+
+Dies ist eine neue Lektion, die mit [The Carpentries Workbench][workbench] erstellt wurde.
 
 
 [workbench]: https://carpentries.github.io/sandpaper-docs
+
 

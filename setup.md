@@ -1,29 +1,26 @@
 ---
-title: Setup
+title: Einrichtung
 ---
 
-FIXME: Setup instructions live in this document. Please specify the tools and
-the data sets the Learner needs to have installed.
 
-## Data Sets
+FIXME: Anweisungen zur Einrichtung finden Sie in diesem Dokument. Bitte geben Sie die Tools und die Datensätze an, die der Lerner installiert haben muss.
+
+## Datensätze
 
 <!--
 FIXME: place any data you want learners to use in `episodes/data` and then use
        a relative link ( [data zip file](data/lesson-data.zip) ) to provide a
        link to it, replacing the example.com link.
 -->
-Download the [data zip file](https://example.com/FIXME) and unzip it to your Desktop
+Laden Sie die [data zip file](https://example.com/FIXME) herunter und entpacken Sie sie auf Ihren Desktop
 
-## Software Setup
+## Software-Einrichtung
 
 ::::::::::::::::::::::::::::::::::::::: discussion
 
 ### Details
 
-Setup for different systems can be presented in dropdown menus via a `solution`
-tag. They will join to this discussion block, so you can give a general overview
-of the software used in this lesson here and fill out the individual operating
-systems (and potentially add more, e.g. online setup) in the solutions blocks.
+Die Einstellungen für verschiedene Systeme können in Dropdown-Menüs über ein `solution`-Tag dargestellt werden. Sie werden mit diesem Diskussionsblock verbunden, so dass Sie hier einen allgemeinen Überblick über die in dieser Lektion verwendete Software geben können und die einzelnen Betriebssysteme (und möglicherweise weitere, z.B. Online-Setup) in den Lösungsblöcken ausfüllen können.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -31,7 +28,7 @@ systems (and potentially add more, e.g. online setup) in the solutions blocks.
 
 ### Windows
 
-Use PuTTY
+PuTTY verwenden
 
 :::::::::::::::::::::::::
 
@@ -39,7 +36,7 @@ Use PuTTY
 
 ### MacOS
 
-Use Terminal.app
+Terminal.app verwenden
 
 :::::::::::::::::::::::::
 
@@ -48,7 +45,8 @@ Use Terminal.app
 
 ### Linux
 
-Use Terminal
+Terminal verwenden
 
 :::::::::::::::::::::::::
+
 
