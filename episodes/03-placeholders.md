@@ -42,7 +42,7 @@ rule hostname_remote:
 
 ```
 
-Zur Erinnerung, hier ist die vorherige Version aus der letzten Folge:
+Zur Erinnerung, hier ist die vorherige Version aus der letzten Episode:
 
 ```python
 rule hostname_remote:
