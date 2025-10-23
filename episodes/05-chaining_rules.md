@@ -40,7 +40,8 @@ rule generate_run_files:
 
 ::: challenge
 
-Die neue Regel macht keine Arbeit, sie stellt nur sicher, dass wir die gewünschte Datei erzeugen. Sie ist es nicht wert, auf dem Cluster ausgeführt zu werden. Wie kann man sicherstellen, dass sie nur auf dem Anmeldeknoten ausgeführt wird?
+
+Die neue Regel führt keine eigentliche Arbeit aus – sie sorgt lediglich dafür, dass die gewünschte Datei erstellt wird. Es lohnt sich also nicht, sie auf dem Cluster auszuführen. Wie können wir sicherstellen, dass sie nur auf dem Anmeldeknoten läuft?
 
 :::::: solution
 
@@ -116,17 +117,17 @@ Complete log: .snakemake/log/2024-01-30T173929.781106.snakemake.log
 Schauen Sie sich die Logging-Meldungen an, die Snakemake im Terminal ausgibt. Was ist hier passiert?
 
 1. Snakemake sucht nach einer Regel, die `p_0.999_runs.txt` erzeugt
-1. Es bestimmt, dass "generate_run_files" dies machen kann, wenn `parallel_proportion=0.999`
-1. Es sieht, dass die benötigte Eingabe also `p_0.999/runs/amdahl_run_6.json` ist
-1. Snakemake sucht nach einer Regel, die `p_0.999/runs/amdahl_run_6.json` erzeugt
-1. Es wird festgestellt, dass "amdahl_run" dies machen kann, wenn `parallel_proportion=0.999` und `parallel_tasks=6`
-1. Nachdem Snakemake eine verfügbare Eingabedatei erreicht hat (in diesem Fall ist eigentlich keine Eingabedatei erforderlich), führt es beide Schritte aus, um die endgültige Ausgabe zu erhalten
+2. Es bestimmt, dass "generate_run_files" dies machen kann, wenn `parallel_proportion=0.999`
+3. Es sieht, dass die benötigte Eingabe also `p_0.999/runs/amdahl_run_6.json` ist
+4. Snakemake sucht nach einer Regel, die `p_0.999/runs/amdahl_run_6.json` erzeugt
+5. Es wird festgestellt, dass "amdahl_run" dies machen kann, wenn `parallel_proportion=0.999` und `parallel_tasks=6`
+6. Nachdem Snakemake eine verfügbare Eingabedatei erreicht hat (in diesem Fall ist eigentlich keine Eingabedatei erforderlich), führt es beide Schritte aus, um die endgültige Ausgabe zu erhalten
 
 Dies ist, kurz gesagt, wie wir Arbeitsabläufe in Snakemake aufbauen.
 
 1. Definieren Sie Regeln für alle Verarbeitungsschritte
-1. Wählen Sie `input` und `output` Namensmuster, die es Snakemake erlauben, die Regeln zu verknüpfen
-1. Sagt Snakemake, dass es die endgültige(n) Ausgabedatei(en) erzeugen soll
+2. Wählen Sie `input` und `output` Namensmuster, die es Snakemake erlauben, die Regeln zu verknüpfen
+3. Sagt Snakemake, dass es die endgültige(n) Ausgabedatei(en) erzeugen soll
 
 Wenn Sie es gewohnt sind, reguläre Skripte zu schreiben, ist dies ein wenig gewöhnungsbedürftig. Anstatt die Schritte in der Reihenfolge ihrer Ausführung aufzulisten, arbeiten Sie immer **rückwärts** vom gewünschten Endergebnis aus. Die Reihenfolge der Operationen wird durch die Anwendung der Mustervergleichsregeln auf die Dateinamen bestimmt, nicht durch die Reihenfolge der Regeln in der Snakefile.
 
