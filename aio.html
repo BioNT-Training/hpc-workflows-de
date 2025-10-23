@@ -589,7 +589,7 @@ soll</li>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Gib mir einen Hinweis </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>Sie können im Text suchen, indem Sie <kbd>/</kbd> drücken, und mit
 <kbd>q</kbd> zur Shell zurückkehren.</p>
@@ -602,7 +602,7 @@ soll</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Zeige mir die Lösung </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <ol start="2" style="list-style-type: decimal">
 <li>Gibt die Shell-Befehle, die gerade ausgeführt werden, auf dem
@@ -1229,7 +1229,7 @@ Protokolldateien an, um herauszufinden, warum?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Zeige mir die Lösung </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1335,7 +1335,7 @@ Profils (indem Sie den Wert auf <code>True</code> setzen)</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Zeige mir die Lösung </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Aktualisieren Sie unser Clusterprofil auf</p>
 <div class="codewrapper sourceCode" id="cb6">
@@ -1672,7 +1672,7 @@ abzugleichen)</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Zeige mir die Lösung </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1780,7 +1780,7 @@ Aufgaben haben.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Zeige mir die Lösung </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1813,7 +1813,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-05-chaining_rules"><p>Content from <a href="05-chaining_rules.html">Verkettung von Regeln</a></p>
 <hr>
-<p>Zuletzt aktualisiert am 2025-04-05 |
+<p>Zuletzt aktualisiert am 2025-10-23 |
 
         <a href="https://github.com/carpentries-incubator/hpc-workflows/edit/main/episodes/05-chaining_rules.md" class="external-link">Diese Seite bearbeiten <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1881,10 +1881,10 @@ sich - meistens gibt es mehrere Möglichkeiten, die funktionieren:</p>
 <div class="callout-inner">
 <h3 class="callout-title">Challenge</h3>
 <div class="callout-content">
-<p>Die neue Regel macht keine Arbeit, sie stellt nur sicher, dass wir
-die gewünschte Datei erzeugen. Sie ist es nicht wert, auf dem Cluster
-ausgeführt zu werden. Wie kann man sicherstellen, dass sie nur auf dem
-Anmeldeknoten ausgeführt wird?</p>
+<p>Die neue Regel führt keine eigentliche Arbeit aus – sie sorgt
+lediglich dafür, dass die gewünschte Datei erstellt wird. Es lohnt sich
+also nicht, sie auf dem Cluster auszuführen. Wie können wir
+sicherstellen, dass sie nur auf dem Anmeldeknoten läuft?</p>
 </div>
 </div>
 </div>
@@ -1893,7 +1893,7 @@ Anmeldeknoten ausgeführt wird?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Zeige mir die Lösung </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Wir müssen die neue Regel zu unserer <code>localrules</code>
 hinzufügen:</p>

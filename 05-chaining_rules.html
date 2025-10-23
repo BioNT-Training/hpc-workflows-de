@@ -326,7 +326,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Verkettung von Regeln</h1>
-        <p>Zuletzt aktualisiert am 2025-04-05 |
+        <p>Zuletzt aktualisiert am 2025-10-23 |
 
         <a href="https://github.com/carpentries-incubator/hpc-workflows/edit/main/episodes/05-chaining_rules.md" class="external-link">Diese Seite bearbeiten <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -394,10 +394,10 @@ sich - meistens gibt es mehrere Möglichkeiten, die funktionieren:</p>
 <div class="callout-inner">
 <h3 class="callout-title">Challenge</h3>
 <div class="callout-content">
-<p>Die neue Regel macht keine Arbeit, sie stellt nur sicher, dass wir
-die gewünschte Datei erzeugen. Sie ist es nicht wert, auf dem Cluster
-ausgeführt zu werden. Wie kann man sicherstellen, dass sie nur auf dem
-Anmeldeknoten ausgeführt wird?</p>
+<p>Die neue Regel führt keine eigentliche Arbeit aus – sie sorgt
+lediglich dafür, dass die gewünschte Datei erstellt wird. Es lohnt sich
+also nicht, sie auf dem Cluster auszuführen. Wie können wir
+sicherstellen, dass sie nur auf dem Anmeldeknoten läuft?</p>
 </div>
 </div>
 </div>
@@ -406,7 +406,7 @@ Anmeldeknoten ausgeführt wird?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Zeige mir die Lösung </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Wir müssen die neue Regel zu unserer <code>localrules</code>
 hinzufügen:</p>
@@ -652,7 +652,7 @@ any links that you are not going to use.
   "url": "https://carpentries-incubator.github.io/hpc-workflows/05-chaining_rules.html",
   "identifier": "https://carpentries-incubator.github.io/hpc-workflows/05-chaining_rules.html",
   "dateCreated": "2023-04-19",
-  "dateModified": "2025-04-05",
+  "dateModified": "2025-10-23",
   "datePublished": "2025-10-23"
 }
 
