@@ -161,7 +161,7 @@ snakemake --profile cluster_profile/ p_0.8_scalability.jpg
 
 ## Bonusrunde
 
-Erstellen Sie eine endgültige Regel, die direkt aufgerufen werden kann und ein Skalierungsdiagramm für 3 verschiedene Werte von `p` erzeugt.
+Erstellen Sie eine finale Regel, die direkt aufgerufen werden kann und ein Skalierungsdiagramm für 3 verschiedene Werte von `p` erzeugt.
 
 :::
 
