@@ -60,13 +60,13 @@ rule hostname_login:
 ## Wichtige Punkte zu dieser Datei
 
 1. Die Datei heißt `Snakefile` - mit einem großen `S` und ohne Dateierweiterung.
-1. Einige Zeilen sind eingerückt. Einrückungen müssen mit Leerzeichen, nicht mit Tabulatoren erfolgen. Wie Sie Ihren Texteditor dazu bringen, dies zu tun, erfahren Sie im Abschnitt "Setup".
-1. Die Regeldefinition beginnt mit dem Schlüsselwort `rule`, gefolgt von dem Namen der Regel und einem Doppelpunkt.
-1. Wir haben die Regel `hostname_login` genannt. Sie können Buchstaben, Zahlen oder Unterstriche verwenden, aber der Name der Regel muss mit einem Buchstaben beginnen und darf kein Schlüsselwort sein.
-1. Die Schlüsselwörter `input`, `output` und `shell` werden alle von einem Doppelpunkt (":") gefolgt.
-1. Die Dateinamen und der Shell-Befehl sind alle in `"quotes"`.
-1. Der Name der Ausgabedatei wird vor dem Namen der Eingabedatei angegeben. Eigentlich ist es Snakemake egal, in welcher Reihenfolge sie erscheinen, aber wir geben in diesem Kurs die Ausgabe zuerst an. Wir werden gleich sehen, warum.
-1. In diesem Anwendungsfall gibt es keine Eingabedatei für den Befehl, also lassen wir dieses Feld leer.
+2. Einige Zeilen sind eingerückt. Einrückungen müssen mit Leerzeichen, nicht mit Tabulatoren erfolgen. Wie Sie Ihren Texteditor dazu bringen, dies zu tun, erfahren Sie im Abschnitt "Setup".
+3. Die Regeldefinition beginnt mit dem Schlüsselwort `rule`, gefolgt von dem Namen der Regel und einem Doppelpunkt.
+4. Wir haben die Regel `hostname_login` genannt. Sie können Buchstaben, Zahlen oder Unterstriche verwenden, aber der Name der Regel muss mit einem Buchstaben beginnen und darf kein Schlüsselwort sein.
+5. Die Schlüsselwörter `input`, `output` und `shell` werden alle von einem Doppelpunkt (":") gefolgt.
+6. Die Dateinamen und der Shell-Befehl sind alle in `"Anführungszeichen"`.
+7. Der Name der Ausgabedatei wird vor dem Namen der Eingabedatei angegeben. Eigentlich ist es Snakemake egal, in welcher Reihenfolge sie erscheinen, aber wir geben in diesem Kurs die Ausgabe zuerst an. Wir werden gleich sehen, warum.
+8. In diesem Anwendungsfall gibt es keine Eingabedatei für den Befehl, also lassen wir dieses Feld leer.
 
 :::
 
@@ -137,9 +137,9 @@ snakemake -j1 -p hostname_login
 Führen Sie `snakemake --help | less` aus, um die Hilfe für alle verfügbaren Optionen zu sehen. Was bewirkt die Option `-p` in dem obigen Befehl `snakemake`?
 
 1. Schützt bestehende Ausgabedateien
-1. Gibt die Shell-Befehle, die gerade ausgeführt werden, auf dem Terminal aus
-1. Sagt Snakemake, dass es nur einen Prozess auf einmal ausführen soll
-1. Fordert den Benutzer auf, die richtige Eingabedatei zu wählen
+2. Gibt die Shell-Befehle, die gerade ausgeführt werden, auf dem Terminal aus
+3. Sagt Snakemake, dass es nur einen Prozess auf einmal ausführen soll
+4. Fordert den Benutzer auf, die richtige Eingabedatei zu wählen
 
 :::::: hint
 
