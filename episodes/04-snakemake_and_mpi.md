@@ -42,7 +42,7 @@ rule amdahl_run:
         "mpiexec -n 1 amdahl > {output}"
 ```
 
-Wenn wir jedoch versuchen, die Regel auszuführen, erhalten wir eine Fehlermeldung (es sei denn, Sie haben bereits eine andere Version von `amdahl` in Ihrem Pfad verfügbar). Snakemake meldet den Speicherort der Protokolle und wenn wir darin nachsehen, finden wir (eventuell)
+Wenn wir jedoch versuchen, die Regel auszuführen, erhalten wir eine Fehlermeldung – es sei denn, Sie haben bereits eine andere Version von `amdahl` in Ihrem Pfad. Snakemake gibt dabei den Speicherort der Protokolle aus, und wenn wir dort nachsehen, finden wir (gegebenenfalls) Folgendes:
 
 ```output
 ...
@@ -109,7 +109,7 @@ default-resources:
 use-envmodules: True
 ```
 
-Wenn Sie es testen wollen, müssen Sie die Ausgabedatei der Regel löschen und Snakemake erneut ausführen.
+Um dies zu testen, müssen Sie die Ausgabedatei der Regel löschen und Snakemake erneut ausführen.
 
 ::::::
 
@@ -146,7 +146,7 @@ rule amdahl_run:
 
 Das hat funktioniert, aber jetzt haben wir ein kleines Problem. Wir wollen dies für einige verschiedene Werte von `tasks` machen, was bedeuten würde, dass wir für jeden Lauf eine andere Ausgabedatei benötigen. Es wäre großartig, wenn wir irgendwie in `output` den Wert angeben könnten, den wir für `tasks` verwenden wollen... und Snakemake das übernehmen könnte.
 
-Wir koennten eine _Wildcard_ in `output` benutzen, um das `tasks` zu definieren, das wir benutzen wollen. Die Syntax für einen solchen Platzhalter sieht wie folgt aus
+Wir könnten eine _Wildcard_ in `output` benutzen, um das `tasks` zu definieren, das wir benutzen wollen. Die Syntax für einen solchen Platzhalter sieht wie folgt aus
 
 ```python
 output: "amdahl_run_{parallel_tasks}.txt"
@@ -172,16 +172,16 @@ Wir fangen gerade erst mit ein paar einfachen Regeln an, aber es lohnt sich, dar
 
 1. Bereitet sich auf die Ausführung vor:
     1. Liest alle Regeldefinitionen aus dem Snakefile ein
-1. Planen Sie, was zu tun ist:
+2. Planen Sie, was zu tun ist:
     1. Zeigt an, welche Datei(en) Sie erstellen möchten
-    1. Sucht nach einer passenden Regel, indem es die `output` aller ihm bekannten Regeln betrachtet
-    1. Füllt die Platzhalter aus, um die `input` für diese Regel zu berechnen
-    1. Prüft, ob diese Eingabedatei (falls erforderlich) tatsächlich vorhanden ist
-1. Führt die Schritte aus:
+    2. Sucht nach einer passenden Regel, indem es die `output` aller ihm bekannten Regeln betrachtet
+    3. Füllt die Platzhalter aus, um die `input` für diese Regel zu berechnen
+    4. Prüft, ob diese Eingabedatei (falls erforderlich) tatsächlich vorhanden ist
+3. Führt die Schritte aus:
     1. Erzeugt das Verzeichnis für die Ausgabedatei, falls erforderlich
-    1. Entfernt die alte Ausgabedatei, wenn sie bereits vorhanden ist
-    1. Nur dann wird der Shell-Befehl mit den ersetzten Platzhaltern ausgeführt
-    1. Prüft, ob der Befehl ohne Fehler gelaufen ist *und* die neue Ausgabedatei wie erwartet erstellt hat
+    2. Entfernt die alte Ausgabedatei, wenn sie bereits vorhanden ist
+    3. Nur dann wird der Shell-Befehl mit den ersetzten Platzhaltern ausgeführt
+    4. Prüft, ob der Befehl ohne Fehler gelaufen ist *und* die neue Ausgabedatei wie erwartet erstellt hat
 
 ::: callout
 
