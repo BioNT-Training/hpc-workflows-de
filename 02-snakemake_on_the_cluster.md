@@ -17,7 +17,7 @@ exercises: 20
 
 :::
 
-Was passiert, wenn wir unsere Regel auf dem Cluster und nicht auf dem Anmeldeknoten laufen lassen wollen? Der Cluster, den wir verwenden, benutzt Slurm, und es ist so, dass Snakemake eine eingebaute Unterstützung für Slurm hat, wir müssen ihm nur sagen, dass wir es benutzen wollen.
+Was passiert, wenn wir unsere Regel nicht auf dem Anmeldeknoten, sondern direkt auf dem Cluster ausführen möchten? Der Cluster, den wir verwenden, nutzt Slurm – und da Snakemake dafür eine eingebaute Unterstützung bietet, müssen wir ihm nur mitteilen, dass wir Slurm verwenden wollen.
 
 Snakemake verwendet die Option `executor`, um Ihnen die Möglichkeit zu geben, das Plugin auszuwählen, mit dem Sie die Regel ausführen möchten. Der schnellste Weg, dies auf Ihr Snakefile anzuwenden, ist, dies auf der Kommandozeile zu definieren. Probieren wir es aus
 
